@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"./hlt/input"
+	"./input"
 )
 
 // Player - Structure to hold all information about a player

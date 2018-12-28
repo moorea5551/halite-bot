@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"./hlt/log"
+	"../log"
 )
 
 // Input - Reads from the game runner, helps with parsing

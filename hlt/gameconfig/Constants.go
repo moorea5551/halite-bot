@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"./hlt/log"
+	"../log"
 )
 
 // Game setting keys

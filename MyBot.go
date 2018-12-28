@@ -57,10 +57,18 @@ func main() {
 			var ship = ships[i]
 			var maxHalite, _ = config.GetInt(gameconfig.MaxHalite)
 			var currentCell = gameMap.AtEntity(ship.E)
-			if currentCell.Halite < (maxHalite/10) || ship.IsFull() {
-				commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
-			} else {
-				commands = append(commands, ship.Move(hlt.Still()))
+			var dropoffs = me.Dropoffs
+
+			for d := range dropoffs {
+				var dropoff = dropoffs[d]
+				logger.Printf
+				if gameMap.CalculateDistance(ship.E.Pos, dropoff.E.Pos) == 0 {
+					commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
+				} else if currentCell.Halite < (maxHalite/10) || ship.IsFull() {
+					commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, dropoff.E.Pos)))
+				} else {
+					commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
+				}
 			}
 		}
 		var shipCost, _ = config.GetInt(gameconfig.ShipCost)
