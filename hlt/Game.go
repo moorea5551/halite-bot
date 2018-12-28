@@ -3,9 +3,9 @@ package hlt
 import (
 	"fmt"
 
-	"github.com/moorea5551/halite-bot/hlt/gameconfig"
-	"github.com/moorea5551/halite-bot/hlt/input"
-	"github.com/moorea5551/halite-bot/hlt/log"
+	"./hlt/gameconfig"
+	"./hlt/input"
+	"./hlt/log"
 )
 
 // Game - Structure holding all metadata for the game

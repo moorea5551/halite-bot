@@ -3,7 +3,7 @@ package hlt
 import (
 	"fmt"
 
-	"github.com/moorea5551/halite-bot/hlt/input"
+	"./hlt/input"
 )
 
 // GameMap - Top level structure for the game map

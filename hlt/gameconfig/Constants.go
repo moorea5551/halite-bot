@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/moorea5551/halite-bot/hlt/log"
+	"./hlt/log"
 )
 
 // Game setting keys

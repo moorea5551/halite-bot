@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/moorea5551/halite-bot/hlt/log"
+	"./hlt/log"
 )
 
 // Input - Reads from the game runner, helps with parsing
