@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"./hlt"
-	"./hlt/gameconfig"
-	"./hlt/log"
+	"github.com/moorea5551/halite-bot/hlt"
+	"github.com/moorea5551/halite-bot/hlt/gameconfig"
+	"github.com/moorea5551/halite-bot/hlt/log"
 )
 
 func gracefulExit(logger *log.FileLogger) {

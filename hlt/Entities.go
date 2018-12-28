@@ -3,8 +3,8 @@ package hlt
 import (
 	"fmt"
 
-	"./gameconfig"
-	"./input"
+	"github.com/moorea5551/halite-bot/hlt/gameconfig"
+	"github.com/moorea5551/halite-bot/hlt/input"
 )
 
 // Entity - Base entity structure

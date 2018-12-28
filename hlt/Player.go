@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"./input"
+	"github.com/moorea5551/halite-bot/hlt/input"
 )
 
 // Player - Structure to hold all information about a player
