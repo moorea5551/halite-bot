@@ -57,18 +57,14 @@ func main() {
 			var ship = ships[i]
 			var maxHalite, _ = config.GetInt(gameconfig.MaxHalite)
 			var currentCell = gameMap.AtEntity(ship.E)
-			var dropoffs = me.Dropoffs
-
-			for d := range dropoffs {
-				var dropoff = dropoffs[d]
-				logger.Printf
-				if gameMap.CalculateDistance(ship.E.Pos, dropoff.E.Pos) == 0 {
-					commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
-				} else if currentCell.Halite < (maxHalite/10) || ship.IsFull() {
-					commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, dropoff.E.Pos)))
-				} else {
-					commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
-				}
+			if gameMap.CalculateDistance(ship.E.Pos, me.Shipyard.E.Pos) == 0 {
+				commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
+			} else if ship.IsFull() {
+				commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, me.Shipyard.E.Pos)))
+			} else if currentCell.Halite < (maxHalite / 10) {
+				ship.Move(getSafeDirection(ship, gameMap))
+			} else {
+				commands = append(commands, ship.Move(hlt.AllDirections[rand.Intn(4)]))
 			}
 		}
 		var shipCost, _ = config.GetInt(gameconfig.ShipCost)
@@ -77,4 +73,20 @@ func main() {
 		}
 		game.EndTurn(commands)
 	}
+
+}
+
+func getSafeDirection(ship *hlt.Ship, gameMap *hlt.GameMap) *hlt.Direction {
+	var safe = false
+	var direction *hlt.Direction
+
+	for !safe {
+		var direction = hlt.AllDirections[rand.Intn(4)]
+		var offsetDirection, _ = ship.E.Pos.DirectionalOffset(direction)
+		var newMapCell = gameMap.AtPosition(offsetDirection)
+		if newMapCell.IsEmpty() {
+			break
+		}
+	}
+	return direction
 }
