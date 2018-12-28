@@ -3,4 +3,4 @@
 set -e
 go build
 
-./halite --replay-directory replays/ -vvv --width 32 --height 32 "go run main" "go run main"
+./halite --replay-directory replays/ -vvv --width 32 --height 32 "go run main.go" "go run main.go"
