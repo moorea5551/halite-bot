@@ -46,7 +46,8 @@ func main() {
 	var logger = fileLogger.Logger
 	logger.Printf("Successfully created bot! My Player ID is %d. Bot rng seed is %d.", game.Me.ID, seed)
 	gracefulExit(fileLogger)
-	game.Ready("MyBot")
+	game.Ready("MyBetterBot")
+
 	for {
 		game.UpdateFrame()
 		var me = game.Me
@@ -57,7 +58,7 @@ func main() {
 			var ship = ships[i]
 			var maxHalite, _ = config.GetInt(gameconfig.MaxHalite)
 			var currentCell = gameMap.AtEntity(ship.E)
-			if ship.IsFull() {
+			if ship.IsFull() || float64(ship.Halite) >= float64(maxHalite)*(float64(3)/float64(4)) {
 				commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, me.Shipyard.E.Pos)))
 				logger.Printf("shipper's full")
 			} else if currentCell.Halite < (maxHalite / 10) {
@@ -89,6 +90,7 @@ func getSafeDirection(ship *hlt.Ship, gameMap *hlt.GameMap) *hlt.Direction {
 		offsetDirection, _ = ship.E.Pos.DirectionalOffset(direction)
 		newMapCell = gameMap.AtPosition(offsetDirection)
 		if newMapCell.IsEmpty() {
+			newMapCell.MarkUnsafe(ship)
 			safe = true
 		}
 	}
