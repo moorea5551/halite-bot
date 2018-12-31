@@ -46,7 +46,7 @@ func main() {
 	var logger = fileLogger.Logger
 	logger.Printf("Successfully created bot! My Player ID is %d. Bot rng seed is %d.", game.Me.ID, seed)
 	gracefulExit(fileLogger)
-	game.Ready("MyBot")
+	game.Ready("MyBetterBot")
 
 	for {
 		game.UpdateFrame()
@@ -59,10 +59,10 @@ func main() {
 			var maxHalite, _ = config.GetInt(gameconfig.MaxHalite)
 			var currentCell = gameMap.AtEntity(ship.E)
 			if ship.IsFull() || float64(ship.Halite) >= float64(maxHalite)*(float64(3)/float64(4)) {
-				commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, gameMap.Normalize(me.Shipyard.E.Pos))))
+				commands = append(commands, ship.Move(gameMap.NaiveNavigate(ship, me.Shipyard.E.Pos)))
 				logger.Printf("shipper's full")
 			} else if currentCell.Halite < (maxHalite / 10) {
-				direction := getSafeDirection(ship, gameMap)
+				direction := getMaxHaliteDirection(ship, gameMap, game)
 				commands = append(commands, ship.Move(direction))
 				logger.Printf("oscar mike")
 			} else {
@@ -79,26 +79,6 @@ func main() {
 
 }
 
-func getSafeDirection(ship *hlt.Ship, gameMap *hlt.GameMap) *hlt.Direction {
-	var safe = false
-	var direction *hlt.Direction
-	var offsetPosition *hlt.Position
-	var newMapCell *hlt.MapCell
-
-	for !safe {
-		direction = hlt.AllDirections[rand.Intn(4)]
-		offsetPosition, _ = ship.E.Pos.DirectionalOffset(direction)
-		newMapCell = gameMap.AtPosition(gameMap.Normalize(offsetPosition))
-		if newMapCell.IsEmpty() {
-			newMapCell.MarkUnsafe(ship)
-			safe = true
-		}
-	}
-	// fmt.Printf("%+v\n", direction)
-	return direction
-}
-
-// might be useful in the future - used in a test bot that wound up not being better than random moves
 func getMaxHaliteDirection(ship *hlt.Ship, gameMap *hlt.GameMap, game *hlt.Game) *hlt.Direction {
 	var offsetDirection *hlt.Position
 	var newMapCell *hlt.MapCell
